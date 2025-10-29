@@ -23,6 +23,7 @@
 
   <header>
     <a href="index.html" class="logo">ToujoursBon</a>
+    <div class="menu-toggle">☰</div>
     <nav>
       <ul class="nav-links">
         <li><a href="index.html" aria-current="page">Accueil</a></li>
@@ -98,5 +99,16 @@
       .openPopup();
   </script>
   <script src="script.js"></script>
+  // Menu burger pour mobile
+const menuToggle = document.querySelector('.menu-toggle');
+const navLinks = document.querySelector('.nav-links');
+
+if (menuToggle && navLinks) {
+  menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
+  });
+}
+
 </body>
 </html>
+
