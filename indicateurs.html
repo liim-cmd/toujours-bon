@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indicateurs – ToujoursBon</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    /* Connexion */
+    .login-container {
+      max-width: 400px;
+      margin: 5rem auto;
+      background-color: var(--card-bg);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .login-container input {
+      width: 100%;
+      padding: 0.6rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+    }
+
+    .login-container button {
+      width: 100%;
+      background-color: var(--primary);
+      color: var(--bg);
+      padding: 0.8rem;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .login-container button:hover {
+      background-color: var(--secondary);
+    }
+
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 0.5rem;
+    }
+
+    /* Tableau de bord */
+    .dashboard {
+      display: none;
+      max-width: 1100px;
+      margin: 2rem auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--header-bg);
+      color: var(--bg);
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .dashboard-header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .logout-btn,
+    .pdf-btn {
+      background-color: var(--secondary);
+      color: var(--bg);
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .logout-btn:hover,
+    .pdf-btn:hover {
+      background-color: var(--primary);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-card h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: var(--primary);
+    }
+
+    .stat-card p {
+      margin: 0.3rem 0 0;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    /* Graphiques */
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .chart-box {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .chart-box h2 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 200px !important;
+    }
+
+    @media (max-width: 600px) {
+      .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">ToujoursBon</div>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="produits.html">Produits</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="indicateurs.html" aria-current="page">Indicateurs</a></li>
+      </ul>
+    </nav>
+    <label class="theme-switch" for="theme-toggle">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <!-- Connexion -->
+  <div class="login-container" id="login-container">
+    <h1>Connexion</h1>
+    <input type="text" id="username" placeholder="Identifiant" />
+    <input type="password" id="password" placeholder="Mot de passe" />
+    <button id="login-btn">Se connecter</button>
+    <div class="error" id="error-msg"></div>
+  </div>
+
+  <!-- Tableau de bord -->
+  <main class="dashboard" id="dashboard">
+    <div class="dashboard-header">
+      <h1>Tableau de bord – Rouen Rive Droite</h1>
+      <div>
+        <button class="pdf-btn" id="pdf-btn">📄 Exporter en PDF</button>
+        <button class="logout-btn" id="logout-btn">Se déconnecter</button>
+      </div>
+    </div>
+
+    <div id="dashboard-content">
+      <div class="stats-grid">
+        <div class="stat-card"><h2>14,30 €</h2><p>Panier moyen</p></div>
+        <div class="stat-card"><h2>1 250</h2><p>Ventes mensuelles</p></div>
+        <div class="stat-card"><h2>460</h2><p>Clients réguliers</p></div>
+        <div class="stat-card"><h2>8 200</h2><p>Produits sauvés</p></div>
+        <div class="stat-card"><h2>980</h2><p>Comptes fidélité</p></div>
+        <div class="stat-card"><h2>120</h2><p>Abonnements actifs</p></div>
+        <div class="stat-card"><h2>87 %</h2><p>Taux de renouvellement</p></div>
+        <div class="stat-card"><h2>4,7 / 5</h2><p>Satisfaction client</p></div>
+        <div class="stat-card"><h2>2,4 t</h2><p>CO₂ évité / mois</p></div>
+        <div class="stat-card"><h2>68 %</h2><p>Produits locaux</p></div>
+      </div>
+
+      <div class="charts">
+        <div class="chart-box">
+          <h2>📈 Suivi des ventes mensuelles</h2>
+          <canvas id="chartVentes"></canvas>
+        </div>
+        <div class="chart-box">
+          <h2>🥦 Répartition des ventes par catégorie</h2>
+          <canvas id="chartCategories"></canvas>
+        </div>
+        <div class="chart-box">
+          <h2>👥 Évolution des abonnements mensuels</h2>
+          <canvas id="chartAbonnements"></canvas>
+        </div>
+        <div class="chart-box">
+          <h2>⭐ Fidélité & Satisfaction</h2>
+          <canvas id="chartFidelite"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 ToujoursBon – Rouen Rive Droite. Tous droits réservés.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+    // Redirection si non connecté
+    if (!sessionStorage.getItem("connecte")) {
+      window.location.href = "403.html";
+    }
+
+    const IDENTIFIANT = "admin";
+    const MOTDEPASSE = "zerogaspi76";
+
+    const loginContainer = document.getElementById("login-container");
+    const dashboard = document.getElementById("dashboard");
+    const errorMsg = document.getElementById("error-msg");
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+    const pdfBtn = document.getElementById("pdf-btn");
+
+    if (sessionStorage.getItem("connecte") === "true") {
+      loginContainer.style.display = "none";
+      dashboard.style.display = "flex";
+      initCharts();
+    }
+
+    loginBtn.addEventListener("click", () => {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+
+      if (user === IDENTIFIANT && pass === MOTDEPASSE) {
+        sessionStorage.setItem("connecte", "true");
+        loginContainer.style.display = "none";
+        dashboard.style.display = "flex";
+        initCharts();
+      } else {
+        errorMsg.textContent = "Identifiant ou mot de passe incorrect.";
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      sessionStorage.removeItem("connecte");
+      dashboard.style.display = "none";
+      loginContainer.style.display = "block";
+      document.getElementById("username").value = "";
+      document.getElementById("password").value = "";
+    });
+
+    // Export PDF
+    pdfBtn.addEventListener("click", async () => {
+      const dashboardContent = document.getElementById("dashboard-content");
+      const canvas = await html2canvas(dashboardContent, { scale: 2 });
+      const imgData = canvas.toDataURL("image/png");
+
+      const { jsPDF } = window.jspdf;
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight);
+      pdf.save("tableau-de-bord-toujoursbon.pdf");
+    });
+
+    // Graphiques
+    function initCharts() {
+      new Chart(document.getElementById("chartVentes"), {
+        type: "line",
+        data: {
+          labels: ["Mai", "Juin", "Juil.", "Août", "Sept.", "Oct."],
+          datasets: [{
+            label: "Ventes mensuelles",
+            data: [1020, 1150, 1190, 1280, 1350, 1250],
+            borderColor: "#5cb85c",
+            backgroundColor: "rgba(92,184,92,0.15)",
+            fill: true,
+            tension: 0
+          }]
+        },
+        options: { responsive: true, animation: false, plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById("chartCategories"), {
+        type: "doughnut",
+        data: {
+          labels: ["Frais", "Secs", "Fruits & légumes"],
+          datasets: [{
+            data: [40, 35, 25],
+            backgroundColor: ["#4caf50", "#ffa64d", "#5cb85c"]
+          }]
+        },
+        options: { responsive: true, animation: false, plugins: { legend: { position: "bottom" } } }
+      });
+
+      new Chart(document.getElementById("chartAbonnements"), {
+        type: "bar",
+        data: {
+          labels: ["Mai", "Juin", "Juil.", "Août", "Sept.", "Oct."],
+          datasets: [{
+            label: "Abonnements actifs",
+            data: [100, 105, 110, 115, 118, 120],
+            backgroundColor: "#5cb85c"
+          }]
+        },
+        options: { responsive: true, animation: false, plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById("chartFidelite"), {
+        type: "bar",
+        data: {
+          labels: ["Fidélité", "Satisfaction"],
+          datasets: [{
+            data: [87, 94],
+            backgroundColor: ["#4caf50", "#ffa64d"]
+          }]
+        },
+        options: {
+          responsive: true,
+          animation: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true, max: 100 } }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
