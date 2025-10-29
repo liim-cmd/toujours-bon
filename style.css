@@ -388,21 +388,49 @@ footer {
   font-size: 0.9rem;
 }
 
-/* --- MENU BURGER (UNIQUEMENT SUR TÉLÉPHONE) --- */
+/* Adaptations pour petits écrans */
+@media (max-width: 600px) {
+  .hero-text h1 {
+    font-size: 1.5rem;
+  }
+  .hero-text p {
+    font-size: 1rem;
+  }
+  header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .nav-links {
+    flex-wrap: wrap;
+    margin-top: 0.5rem;
+  }
+  .nav-links li {
+    margin-left: 0;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  .feature-item {
+    flex: 1 1 100%;
+  }
+}
+
+/* --- Ajout minimal : menu burger mobile (uniquement) + animation --- */
+
+/* burger bouton caché par défaut (desktop) */
 .burger {
-  display: none !important; /* Caché par défaut sur PC */
+  display: none;
   background: none;
   border: none;
   color: var(--bg);
-  font-size: 2rem;
+  font-size: 1.8rem;
   cursor: pointer;
   line-height: 1;
 }
 
-/* 📱 Sur mobile uniquement */
+/* On utilisera un mécanisme "max-height" pour l'animation sur mobile */
 @media screen and (max-width: 768px) {
   .burger {
-    display: block !important; /* Affiché uniquement sur mobile */
+    display: block !important; /* affiché uniquement sur mobile */
   }
 
   header {
@@ -410,26 +438,28 @@ footer {
     align-items: flex-start;
   }
 
-  nav {
-    width: 100%;
-  }
-
+  /* Préparer nav pour l'animation : max-height + overflow hidden */
   .nav-links {
-    display: none;
+    display: flex; /* garder flex pour conserver ton style (mais colonne sur mobile) */
     flex-direction: column;
     width: 100%;
     background-color: var(--header-bg);
     margin-top: 0.5rem;
     padding: 0;
+    overflow: hidden;
+    max-height: 0;
+    transition: max-height 280ms ease;
   }
 
+  /* Quand ouvert */
   .nav-links.show {
-    display: flex;
+    max-height: 400px; /* suffisamment grand pour contenir les liens */
   }
 
   .nav-links li {
     margin: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    width: 100%;
   }
 
   .nav-links a {
@@ -443,10 +473,11 @@ footer {
   }
 }
 
-/* 💻 Sur PC : toujours afficher la navigation, cacher le burger */
+/* Forcer sur desktop : nav visible, burger caché (sécurité si d'autres règles existent) */
 @media screen and (min-width: 769px) {
   .nav-links {
     display: flex !important;
+    max-height: none !important;
   }
   .burger {
     display: none !important;

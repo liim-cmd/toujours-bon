@@ -1,21 +1,26 @@
 /*
  * Script principal du site Zéro Gaspi Market
- * Gère la sélection du thème (clair/sombre), le filtrage des produits
- * et le menu burger mobile.
+ * Gère la sélection du thème (clair/sombre) et le filtrage des produits,
+ * ainsi que le menu burger sur mobile.
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // --- Gestion du mode sombre / clair ---
+  // Gestion du mode sombre / clair en utilisant localStorage
   const themeToggle = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('theme');
-
+  // Appliquer le thème enregistré si disponible
   if (savedTheme) {
     document.documentElement.setAttribute('data-theme', savedTheme);
-    if (themeToggle && savedTheme === 'dark') themeToggle.checked = true;
+    if (themeToggle && savedTheme === 'dark') {
+      themeToggle.checked = true;
+    }
   } else {
+    // Utiliser la préférence système si aucun thème n’est enregistré
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    if (themeToggle) themeToggle.checked = prefersDark;
+    if (themeToggle) {
+      themeToggle.checked = prefersDark;
+    }
   }
 
   if (themeToggle) {
@@ -26,19 +31,24 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- Filtrage des produits ---
+  // Filtrage des produits sur la page Produits
   const filterButtons = document.querySelectorAll('.filter-btn');
   const productCards = document.querySelectorAll('.product-card');
-
   if (filterButtons && productCards) {
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => {
         const filter = btn.dataset.filter;
+        // Mettre à jour l’état actif des boutons
         filterButtons.forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
+        // Afficher ou masquer les cartes selon la catégorie
         productCards.forEach(card => {
           const category = card.dataset.category;
-          card.style.display = (filter === 'all' || category === filter) ? '' : 'none';
+          if (filter === 'all' || category === filter) {
+            card.style.display = '';
+          } else {
+            card.style.display = 'none';
+          }
         });
       });
     });
@@ -50,14 +60,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (burger && navLinks) {
     burger.addEventListener('click', () => {
+      // n'agir que si écran mobile
       if (window.innerWidth <= 768) {
         const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
-        burger.setAttribute('aria-expanded', !expanded);
+        burger.setAttribute('aria-expanded', (!expanded).toString());
         navLinks.classList.toggle('show');
       }
     });
 
-    // Ferme le menu si on clique sur un lien
+    // Ferme le menu si on clique sur un lien (utile sur mobile)
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 768) {

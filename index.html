@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="ToujoursBon Rouen – votre magasin anti‑gaspillage situé sur la rive droite de Rouen. Produits à petits prix, anti‑gaspi et responsables.">
-  <title>ToujoursBon – Rouen</title>
+  <meta name="description" content="ToujoursBon Rouen – votre magasin anti-gaspillage situé sur la rive droite de Rouen. Produits à petits prix, anti-gaspi et responsables.">
+  <title>ToujoursBon – Rouen</title>
   <link rel="stylesheet" href="style.css">
 
   <!-- Leaflet CSS -->
@@ -21,35 +21,33 @@
 <body>
   <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
-<header>
-  <div class="logo">ToujoursBon</div>
+  <header>
+    <div class="logo">ToujoursBon</div>
 
-  <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
-    ☰
-  </button>
+    <!-- Bouton burger visible uniquement sur mobile -->
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">☰</button>
 
-  <nav>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="produits.html">Produits</a></li>
-      <li><a href="a-propos.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" aria-current="page">Accueil</a></li>
+        <li><a href="produits.html">Produits</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
 
-  <label class="theme-switch" for="theme-toggle">
-    <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
-    <span class="slider"></span>
-  </label>
-</header>
-
+    <label class="theme-switch" for="theme-toggle">
+      <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
+      <span class="slider"></span>
+    </label>
+  </header>
 
   <main id="main-content">
     <section class="hero">
       <img src="images/hero.png" alt="Illustration représentant des fruits, des légumes et une baguette de pain" class="hero-img">
       <div class="hero-text">
         <h1>Réduisez vos dépenses, sauvez la planète</h1>
-        <p>Votre nouveau magasin anti‑gaspi à Rouen Rive Droite</p>
+        <p>Votre nouveau magasin anti-gaspi à Rouen Rive Droite</p>
         <a href="produits.html" class="btn">Découvrir nos produits</a>
       </div>
     </section>
@@ -60,11 +58,11 @@
     </section>
 
     <section class="features">
-      <h2>Pourquoi choisir Zéro Gaspi ?</h2>
+      <h2>Pourquoi choisir Zéro Gaspi ?</h2>
       <div class="feature-grid">
         <div class="feature-item">
           <h3>Économique</h3>
-          <p>Des produits entre 30 % et 70 % moins chers que dans les circuits traditionnels.</p>
+          <p>Des produits entre 30 % et 70 % moins chers que dans les circuits traditionnels.</p>
         </div>
         <div class="feature-item">
           <h3>Écologique</h3>
@@ -85,7 +83,7 @@
   </main>
 
   <footer>
-    <p>&copy; 2025 ToujoursBon – Rouen Rive Droite. Tous droits réservés.</p>
+    <p>&copy; 2025 ToujoursBon – Rouen Rive Droite. Tous droits réservés.</p>
   </footer>
 
   <!-- Leaflet JS -->
@@ -104,6 +102,7 @@
       .bindPopup('<b>ToujoursBon</b><br>Place du Vieux Marché, Rouen.')
       .openPopup();
   </script>
+
   <script src="script.js"></script>
 </body>
 </html>

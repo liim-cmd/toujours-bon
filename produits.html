@@ -3,85 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Découvrez la sélection de produits anti‑gaspillage du Zéro Gaspi Market de Rouen : produits frais, secs et fruits & légumes à prix réduits.">
-  <title>Nos produits – ToujoursBon</title>
+  <meta name="description" content="ToujoursBon Rouen – votre magasin anti-gaspillage situé sur la rive droite de Rouen. Produits à petits prix, anti-gaspi et responsables.">
+  <title>ToujoursBon – Rouen</title>
   <link rel="stylesheet" href="style.css">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    #map {
+      height: 400px;
+      width: 100%;
+      margin-top: 2rem;
+      border-radius: 12px;
+    }
+  </style>
 </head>
 <body>
   <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-<header>
-  <div class="logo">ToujoursBon</div>
 
-  <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
-    ☰
-  </button>
+  <header>
+    <div class="logo">ToujoursBon</div>
 
-  <nav>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="produits.html">Produits</a></li>
-      <li><a href="a-propos.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-    </ul>
-  </nav>
+    <!-- Bouton burger visible uniquement sur mobile -->
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">☰</button>
 
-  <label class="theme-switch" for="theme-toggle">
-    <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
-    <span class="slider"></span>
-  </label>
-</header>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html" aria-current="page">Accueil</a></li>
+        <li><a href="produits.html">Produits</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+
+    <label class="theme-switch" for="theme-toggle">
+      <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
+      <span class="slider"></span>
+    </label>
+  </header>
 
   <main id="main-content">
-    <section class="product-header">
-      <h1>Nos produits</h1>
-      <p>Faites votre choix parmi notre sélection de produits sauvés du gaspillage : frais, secs et fruits & légumes.</p>
-      <div class="filter-controls" role="group" aria-label="Filtrer les produits par catégorie">
-        <button class="filter-btn active" data-filter="all">Tous</button>
-        <button class="filter-btn" data-filter="frais">Frais</button>
-        <button class="filter-btn" data-filter="secs">Secs</button>
-        <button class="filter-btn" data-filter="fruits">Fruits & légumes</button>
+    <section class="hero">
+      <img src="images/hero.png" alt="Illustration représentant des fruits, des légumes et une baguette de pain" class="hero-img">
+      <div class="hero-text">
+        <h1>Réduisez vos dépenses, sauvez la planète</h1>
+        <p>Votre nouveau magasin anti-gaspi à Rouen Rive Droite</p>
+        <a href="produits.html" class="btn">Découvrir nos produits</a>
       </div>
     </section>
-    <section class="product-grid">
-      <!-- Catégorie : produits frais -->
-      <div class="product-card" data-category="frais">
-        <img src="images/dairy.png" alt="Illustration de pots de yaourt et de bouteilles de lait" loading="lazy">
-        <h3>Yaourts nature (lot de 4)</h3>
-        <p class="price">1,20 € <span class="original-price">2,50 €</span></p>
+
+    <section class="intro">
+      <h2>Bienvenue chez ToujoursBon Rouen</h2>
+      <p>Installé sur la rive droite de Rouen, notre magasin récupère chaque jour des produits encore parfaits à consommer mais proches de leur date de péremption ou dont l’emballage est légèrement abîmé. Nous les proposons ensuite à des prix imbattables afin de lutter contre le gaspillage alimentaire et de faire du bien à votre budget.</p>
+    </section>
+
+    <section class="features">
+      <h2>Pourquoi choisir Zéro Gaspi ?</h2>
+      <div class="feature-grid">
+        <div class="feature-item">
+          <h3>Économique</h3>
+          <p>Des produits entre 30 % et 70 % moins chers que dans les circuits traditionnels.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Écologique</h3>
+          <p>Chaque panier acheté permet de sauver des aliments de la poubelle et de réduire l’empreinte carbone.</p>
+        </div>
+        <div class="feature-item">
+          <h3>Local</h3>
+          <p>Nous collaborons avec des producteurs et distributeurs de la région de Rouen pour soutenir l’économie locale.</p>
+        </div>
       </div>
-      <div class="product-card" data-category="frais">
-        <img src="images/dairy.png" alt="Illustration de pots de yaourt et de bouteilles de lait" loading="lazy">
-        <h3>Beurre doux 250 g</h3>
-        <p class="price">0,95 € <span class="original-price">1,80 €</span></p>
-      </div>
-      <!-- Catégorie : produits secs -->
-      <div class="product-card" data-category="secs">
-        <img src="images/dry.png" alt="Illustration de paquets de pâtes, de riz et de conserves" loading="lazy">
-        <h3>Pâtes complètes 500 g</h3>
-        <p class="price">0,60 € <span class="original-price">1,20 €</span></p>
-      </div>
-      <div class="product-card" data-category="secs">
-        <img src="images/dry.png" alt="Illustration de paquets de pâtes, de riz et de conserves" loading="lazy">
-        <h3>Conserve de légumes variés</h3>
-        <p class="price">0,80 € <span class="original-price">1,90 €</span></p>
-      </div>
-      <!-- Catégorie : fruits et légumes -->
-      <div class="product-card" data-category="fruits">
-        <img src="images/fruits.png" alt="Illustration de fruits et légumes : bananes, pommes et carottes" loading="lazy">
-        <h3>Pommes et carottes (1 kg)</h3>
-        <p class="price">1,50 € <span class="original-price">3,00 €</span></p>
-      </div>
-      <div class="product-card" data-category="fruits">
-        <img src="images/fruits.png" alt="Illustration de fruits et légumes : bananes, pommes et carottes" loading="lazy">
-        <h3>Bananes mûres (1 kg)</h3>
-        <p class="price">0,90 € <span class="original-price">1,80 €</span></p>
-      </div>
+    </section>
+
+    <!-- Carte interactive -->
+    <section class="map-section">
+      <h2>Où nous trouver ?</h2>
+      <div id="map"></div>
     </section>
   </main>
 
   <footer>
-    <p>&copy; 2025 Tou – Rouen Rive Droite. Tous droits réservés.</p>
+    <p>&copy; 2025 ToujoursBon – Rouen Rive Droite. Tous droits réservés.</p>
   </footer>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    // Coordonnées Place du Vieux Marché, Rouen
+    const map = L.map('map').setView([49.4431, 1.0883], 16);
+
+    // Ajouter les tuiles OpenStreetMap
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    // Ajouter un marqueur
+    L.marker([49.4431, 1.0883]).addTo(map)
+      .bindPopup('<b>ToujoursBon</b><br>Place du Vieux Marché, Rouen.')
+      .openPopup();
+  </script>
+
   <script src="script.js"></script>
 </body>
 </html>
