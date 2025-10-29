@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Découvrez la sélection de produits anti‑gaspillage du Zéro Gaspi Market de Rouen : produits frais, secs et fruits & légumes à prix réduits.">
+  <title>Nos produits – ToujoursBon</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Aller au contenu principal</a>
+  <header>
+    <a href="index.html" class="logo">ToujoursBon</a>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="produits.html" aria-current="page">Produits</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+    <label class="theme-switch" for="theme-toggle">
+      <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <main id="main-content">
+    <section class="product-header">
+      <h1>Nos produits</h1>
+      <p>Faites votre choix parmi notre sélection de produits sauvés du gaspillage : frais, secs et fruits & légumes.</p>
+      <div class="filter-controls" role="group" aria-label="Filtrer les produits par catégorie">
+        <button class="filter-btn active" data-filter="all">Tous</button>
+        <button class="filter-btn" data-filter="frais">Frais</button>
+        <button class="filter-btn" data-filter="secs">Secs</button>
+        <button class="filter-btn" data-filter="fruits">Fruits & légumes</button>
+      </div>
+    </section>
+    <section class="product-grid">
+      <!-- Catégorie : produits frais -->
+      <div class="product-card" data-category="frais">
+        <img src="images/dairy.png" alt="Illustration de pots de yaourt et de bouteilles de lait" loading="lazy">
+        <h3>Yaourts nature (lot de 4)</h3>
+        <p class="price">1,20 € <span class="original-price">2,50 €</span></p>
+      </div>
+      <div class="product-card" data-category="frais">
+        <img src="images/dairy.png" alt="Illustration de pots de yaourt et de bouteilles de lait" loading="lazy">
+        <h3>Beurre doux 250 g</h3>
+        <p class="price">0,95 € <span class="original-price">1,80 €</span></p>
+      </div>
+      <!-- Catégorie : produits secs -->
+      <div class="product-card" data-category="secs">
+        <img src="images/dry.png" alt="Illustration de paquets de pâtes, de riz et de conserves" loading="lazy">
+        <h3>Pâtes complètes 500 g</h3>
+        <p class="price">0,60 € <span class="original-price">1,20 €</span></p>
+      </div>
+      <div class="product-card" data-category="secs">
+        <img src="images/dry.png" alt="Illustration de paquets de pâtes, de riz et de conserves" loading="lazy">
+        <h3>Conserve de légumes variés</h3>
+        <p class="price">0,80 € <span class="original-price">1,90 €</span></p>
+      </div>
+      <!-- Catégorie : fruits et légumes -->
+      <div class="product-card" data-category="fruits">
+        <img src="images/fruits.png" alt="Illustration de fruits et légumes : bananes, pommes et carottes" loading="lazy">
+        <h3>Pommes et carottes (1 kg)</h3>
+        <p class="price">1,50 € <span class="original-price">3,00 €</span></p>
+      </div>
+      <div class="product-card" data-category="fruits">
+        <img src="images/fruits.png" alt="Illustration de fruits et légumes : bananes, pommes et carottes" loading="lazy">
+        <h3>Bananes mûres (1 kg)</h3>
+        <p class="price">0,90 € <span class="original-price">1,80 €</span></p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Tou – Rouen Rive Droite. Tous droits réservés.</p>
+  </footer>
+  <script src="script.js"></script>
+</body>
+</html>
