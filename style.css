@@ -1,5 +1,5 @@
 /*
- * Style du site Zéro Gaspi Market – Rouen Rive Droite
+ * Style du site Zéro Gaspi Market – Rouen Rive Droite
  * Ce fichier définit des variables CSS pour gérer facilement le thème clair/sombre
  * et applique un design responsive, accessible et moderne.
  */
@@ -8,7 +8,7 @@
 :root {
   --bg: #f9f7f3;
   --text: #2a2a2a;
-  --header-bg: #4caf50; /* vert chaleureux pour l’en‑tête */
+  --header-bg: #4caf50; /* vert chaleureux pour l’en-tête */
   --primary: #5cb85c; /* vert principal pour les actions */
   --secondary: #ffa64d; /* orange doux pour les boutons secondaires */
   --card-bg: #ffffff; /* fond des cartes et zones de contenu */
@@ -64,7 +64,7 @@ a {
   z-index: 1000;
 }
 
-/* En‑tête et navigation */
+/* En-tête et navigation */
 header {
   display: flex;
   align-items: center;
@@ -388,302 +388,67 @@ footer {
   font-size: 0.9rem;
 }
 
-/* Adaptations pour petits écrans */
-@media (max-width: 600px) {
-  .hero-text h1 {
-    font-size: 1.5rem;
-  }
-  .hero-text p {
-    font-size: 1rem;
-  }
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .nav-links {
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-  }
-  .nav-links li {
-    margin-left: 0;
-    margin-right: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .feature-item {
-    flex: 1 1 100%;
-  }
-}/* ===================================================
-   🌿 ToujoursBon – Design Responsive 2025
-   Desktop + Mobile Ready
-=================================================== */
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
-
-:root {
-  --bg: #faf8f5;
-  --text: #1c1c1c;
-  --primary: #49b36d;
-  --secondary: #f0a646;
-  --header-bg: rgba(62, 123, 39, 0.9);
-  --card-bg: #ffffff;
-  --shadow: rgba(0, 0, 0, 0.1);
-}
-
-/* Base */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-body {
-  font-family: "Inter", sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  line-height: 1.7;
-  overflow-x: hidden;
-}
-
-/* Header */
-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background: var(--header-bg);
-  color: #fff;
-  backdrop-filter: blur(10px);
-}
-
-.logo {
-  font-size: 1.6rem;
-  font-weight: 700;
-}
-
-/* Navigation */
-.nav-links {
-  display: flex;
-  list-style: none;
-  gap: 1.5rem;
-}
-
-.nav-links a {
-  color: #fff;
-  font-weight: 600;
-  position: relative;
-}
-
-.nav-links a::after {
-  content: "";
-  position: absolute;
-  bottom: -4px;
-  left: 0;
-  width: 0;
-  height: 2px;
-  background: var(--secondary);
-  transition: width 0.3s ease;
-}
-
-.nav-links a:hover::after {
-  width: 100%;
-}
-
-/* HERO */
-.hero {
-  position: relative;
-  text-align: center;
-  color: #fff;
-  overflow: hidden;
-}
-
-.hero img {
-  width: 100%;
-  height: 70vh;
-  object-fit: cover;
-  filter: brightness(0.7);
-}
-
-.hero-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.hero-text h1 {
-  font-size: 2.5rem;
-}
-
-.hero-text p {
-  font-size: 1.2rem;
-  margin: 1rem 0;
-}
-
-.btn {
-  background: var(--secondary);
-  color: #fff;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  font-weight: 600;
-  display: inline-block;
-  transition: all 0.3s ease;
-}
-
-.btn:hover {
-  background: var(--primary);
-  transform: translateY(-3px);
-}
-
-/* Sections */
-section {
-  padding: 5rem 1.5rem;
-  max-width: 1100px;
-  margin: auto;
-  text-align: center;
-}
-
-section h2 {
-  color: var(--primary);
-  margin-bottom: 1.5rem;
+/* --- MENU BURGER (UNIQUEMENT SUR TÉLÉPHONE) --- */
+.burger {
+  display: none !important; /* Caché par défaut sur PC */
+  background: none;
+  border: none;
+  color: var(--bg);
   font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
 }
 
-/* Features / Produits / Cartes */
-.feature-grid,
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1.5rem;
-}
-
-.feature-item,
-.product-card {
-  background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 4px 10px var(--shadow);
-  padding: 1.5rem;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.feature-item:hover,
-.product-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 8px 16px var(--shadow);
-}
-
-/* Formulaire de contact */
-.contact-form {
-  max-width: 600px;
-  margin: 2rem auto;
-  text-align: left;
-}
-
-.contact-form input,
-.contact-form textarea {
-  width: 100%;
-  padding: 0.8rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  margin-bottom: 1rem;
-  font-family: inherit;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-  border-color: var(--primary);
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(73,179,109,0.2);
-}
-
-/* Footer */
-footer {
-  background: var(--header-bg);
-  color: #fff;
-  text-align: center;
-  padding: 1rem;
-  font-size: 0.9rem;
-}
-
-/* -------------------------------------------------
-   🧭 RESPONSIVE DESIGN (Mobile / Tablette)
--------------------------------------------------- */
-
-/* Tablettes */
-@media (max-width: 992px) {
-  .hero img {
-    height: 60vh;
+/* 📱 Sur mobile uniquement */
+@media screen and (max-width: 768px) {
+  .burger {
+    display: block !important; /* Affiché uniquement sur mobile */
   }
-  .hero-text h1 {
-    font-size: 2rem;
-  }
-  .hero-text p {
-    font-size: 1.1rem;
-  }
-}
 
-/* Mobiles */
-@media (max-width: 768px) {
   header {
     flex-direction: column;
     align-items: flex-start;
-    padding: 1rem;
+  }
+
+  nav {
+    width: 100%;
   }
 
   .nav-links {
+    display: none;
     flex-direction: column;
     width: 100%;
-    background: var(--header-bg);
-    border-radius: 8px;
-    padding: 1rem 0;
-    display: none;
+    background-color: var(--header-bg);
+    margin-top: 0.5rem;
+    padding: 0;
   }
 
-  .nav-links.active {
+  .nav-links.show {
     display: flex;
   }
 
-  .menu-toggle {
-    display: block;
-    cursor: pointer;
-    font-size: 1.6rem;
-    margin-top: 0.5rem;
+  .nav-links li {
+    margin: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
   }
 
-  .hero img {
-    height: 50vh;
-  }
-
-  .hero-text h1 {
-    font-size: 1.8rem;
-  }
-
-  section {
-    padding: 3rem 1rem;
-  }
-
-  .feature-item,
-  .product-card {
+  .nav-links a {
     padding: 1rem;
+    text-align: center;
+    display: block;
   }
 
-  footer {
-    font-size: 0.8rem;
+  .theme-switch {
+    margin-top: 0.5rem;
   }
 }
 
-/* Petits téléphones */
-@media (max-width: 480px) {
-  .hero-text h1 {
-    font-size: 1.6rem;
+/* 💻 Sur PC : toujours afficher la navigation, cacher le burger */
+@media screen and (min-width: 769px) {
+  .nav-links {
+    display: flex !important;
   }
-  .hero-text p {
-    font-size: 1rem;
-  }
-  .btn {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
+  .burger {
+    display: none !important;
   }
 }

@@ -48,6 +48,30 @@ document.addEventListener('DOMContentLoaded', () => {
           } else {
             card.style.display = 'none';
           }
+            // --- Menu burger (actif uniquement sur mobile) ---
+  const burger = document.querySelector('.burger');
+  const navLinks = document.querySelector('.nav-links');
+
+  function toggleMenu() {
+    const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
+    burger.setAttribute('aria-expanded', !expanded);
+    navLinks.classList.toggle('show');
+  }
+
+  // Activer le burger seulement si visible à l’écran
+  if (burger && navLinks) {
+    burger.addEventListener('click', () => {
+      if (window.innerWidth <= 768) toggleMenu();
+    });
+
+    // Fermer le menu si on redimensionne au-delà du mobile
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768) {
+        navLinks.classList.remove('show');
+        burger.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
         });
       });
     });

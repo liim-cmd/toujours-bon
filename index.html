@@ -21,22 +21,28 @@
 <body>
   <a href="#main-content" class="skip-link">Aller au contenu principal</a>
 
-  <header>
-    <a href="index.html" class="logo">ToujoursBon</a>
-    <div class="menu-toggle">☰</div>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="index.html" aria-current="page">Accueil</a></li>
-        <li><a href="produits.html">Produits</a></li>
-        <li><a href="a-propos.html">À propos</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <label class="theme-switch" for="theme-toggle">
-      <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
-      <span class="slider"></span>
-    </label>
-  </header>
+<header>
+  <div class="logo">ToujoursBon</div>
+
+  <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+    ☰
+  </button>
+
+  <nav>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="produits.html">Produits</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <label class="theme-switch" for="theme-toggle">
+    <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
+    <span class="slider"></span>
+  </label>
+</header>
+
 
   <main id="main-content">
     <section class="hero">
@@ -97,17 +103,7 @@
     L.marker([49.4431, 1.0883]).addTo(map)
       .bindPopup('<b>ToujoursBon</b><br>Place du Vieux Marché, Rouen.')
       .openPopup();
-        // Menu burger pour mobile
-const menuToggle = document.querySelector('.menu-toggle');
-const navLinks = document.querySelector('.nav-links');
-
-if (menuToggle && navLinks) {
-  menuToggle.addEventListener('click', () => {
-    navLinks.classList.toggle('active');
-  });
-}
   </script>
   <script src="script.js"></script>
 </body>
 </html>
-

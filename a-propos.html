@@ -9,21 +9,28 @@
 </head>
 <body>
   <a href="#main-content" class="skip-link">Aller au contenu principal</a>
-  <header>
-    <a href="index.html" class="logo">ToujoursBon</a>
-    <nav>
-      <ul class="nav-links">
-        <li><a href="index.html">Accueil</a></li>
-        <li><a href="produits.html">Produits</a></li>
-        <li><a href="a-propos.html" aria-current="page">À propos</a></li>
-        <li><a href="contact.html">Contact</a></li>
-      </ul>
-    </nav>
-    <label class="theme-switch" for="theme-toggle">
-      <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
-      <span class="slider"></span>
-    </label>
-  </header>
+<header>
+  <div class="logo">ToujoursBon</div>
+
+  <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">
+    ☰
+  </button>
+
+  <nav>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="produits.html">Produits</a></li>
+      <li><a href="a-propos.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <label class="theme-switch" for="theme-toggle">
+    <input type="checkbox" id="theme-toggle" aria-label="Activer ou désactiver le mode sombre">
+    <span class="slider"></span>
+  </label>
+</header>
+
   <main id="main-content">
     <section class="about-section">
       <h1>À propos de ToujoursBon</h1>
