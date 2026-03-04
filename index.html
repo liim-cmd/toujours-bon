@@ -88,21 +88,20 @@
   </footer>
 
   <!-- Leaflet JS -->
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-    // Coordonnées Place du Vieux Marché, Rouen
-    const map = L.map('map').setView([49.4431, 1.0883], 16);
+  // Coordonnées 24 Av. Pasteur, Rouen
+  const map = L.map('map').setView([49.4456, 1.0997], 16);
 
-    // Ajouter les tuiles OpenStreetMap
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-    }).addTo(map);
+  // Ajouter les tuiles OpenStreetMap
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+  }).addTo(map);
 
-    // Ajouter un marqueur
-    L.marker([49.4431, 1.0883]).addTo(map)
-      .bindPopup('<b>ToujoursBon</b><br>Place du Vieux Marché, Rouen.')
-      .openPopup();
-  </script>
+  // Ajouter un marqueur
+  L.marker([49.4456, 1.0997]).addTo(map)
+    .bindPopup('<b>ToujoursBon</b><br>24 Av. Pasteur, 76000 Rouen.')
+    .openPopup();
+</script>
 
   <script src="script.js"></script>
 </body>
