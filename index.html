@@ -24,17 +24,16 @@
   <header>
     <div class="logo">ToujoursBon</div>
 
-    <!-- Bouton burger visible uniquement sur mobile -->
     <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">☰</button>
 
     <nav>
       <ul class="nav-links" id="nav-links">
-  <li><a href="index.html">Accueil</a></li>
-  <li><a href="produits.html">Produits</a></li>
-  <li><a href="a-propos.html">À propos</a></li>
-  <li><a href="contact.html">Contact</a></li>
-  <li><a href="indicateurs.html">Indicateurs</a></li>
-  </ul>
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="produits.html">Produits</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="indicateurs.html">Indicateurs</a></li>
+      </ul>
     </nav>
 
     <label class="theme-switch" for="theme-toggle">
@@ -55,7 +54,9 @@
 
     <section class="intro">
       <h2>Bienvenue chez ToujoursBon Rouen</h2>
-      <p>Installé sur la rive droite de Rouen, notre magasin récupère chaque jour des produits encore parfaits à consommer mais proches de leur date de péremption ou dont l’emballage est légèrement abîmé. Nous les proposons ensuite à des prix imbattables afin de lutter contre le gaspillage alimentaire et de faire du bien à votre budget.</p>
+      <p>
+        Installé sur la rive droite de Rouen, notre magasin récupère chaque jour des produits encore parfaits à consommer mais proches de leur date de péremption ou dont l’emballage est légèrement abîmé. Nous les proposons ensuite à des prix imbattables afin de lutter contre le gaspillage alimentaire et de faire du bien à votre budget.
+      </p>
     </section>
 
     <section class="features">
@@ -88,20 +89,22 @@
   </footer>
 
   <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
   <script>
-  // Coordonnées 24 Av. Pasteur, Rouen
-  const map = L.map('map').setView([49.4456, 1.0997], 16);
+    // Coordonnées 24 Av. Pasteur, 76000 Rouen
+    const latitude = 49.4456;
+    const longitude = 1.0997;
 
-  // Ajouter les tuiles OpenStreetMap
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
-  }).addTo(map);
+    const map = L.map('map').setView([latitude, longitude], 16);
 
-  // Ajouter un marqueur
-  L.marker([49.4456, 1.0997]).addTo(map)
-    .bindPopup('<b>ToujoursBon</b><br>24 Av. Pasteur, 76000 Rouen.')
-    .openPopup();
-</script>
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    L.marker([latitude, longitude]).addTo(map)
+      .bindPopup('<b>ToujoursBon</b><br>24 Av. Pasteur, 76000 Rouen.')
+      .openPopup();
+  </script>
 
   <script src="script.js"></script>
 </body>
