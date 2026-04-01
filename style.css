@@ -1,20 +1,18 @@
 /*
- * Style du site Zéro Gaspi Market – Rouen Rive Droite
- * Ce fichier définit des variables CSS pour gérer facilement le thème clair/sombre
- * et applique un design responsive, accessible et moderne.
+ * Style du site ToujoursBon – Rouen Rive Droite
  */
 
-/* Variables de couleur de base */
+/* Variables */
 :root {
   --bg: #f9f7f3;
   --text: #2a2a2a;
-  --header-bg: #4caf50; /* vert chaleureux pour l’en-tête */
-  --primary: #5cb85c; /* vert principal pour les actions */
-  --secondary: #ffa64d; /* orange doux pour les boutons secondaires */
-  --card-bg: #ffffff; /* fond des cartes et zones de contenu */
+  --header-bg: #4caf50;
+  --primary: #5cb85c;
+  --secondary: #ffa64d;
+  --card-bg: #ffffff;
 }
 
-/* Couleurs pour le mode sombre */
+/* Mode sombre */
 [data-theme="dark"] {
   --bg: #1e1e1e;
   --text: #e6e6e6;
@@ -24,18 +22,24 @@
   --card-bg: #2c2c2c;
 }
 
-/* Réinitialisation et base */
+/* Reset */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial;
   line-height: 1.6;
   background-color: var(--bg);
   color: var(--text);
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Fix images */
+img {
+  max-width: 100%;
+  display: block;
 }
 
 a {
@@ -43,28 +47,21 @@ a {
   text-decoration: none;
 }
 
-/* Lien d’accès rapide */
+/* Accessibilité */
 .skip-link {
   position: absolute;
   left: -10000px;
-  top: auto;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  background: var(--primary);
-  color: var(--bg);
-  padding: 0.5rem;
-  border-radius: 4px;
 }
 
 .skip-link:focus {
   position: static;
-  width: auto;
-  height: auto;
+  background: var(--primary);
+  color: var(--bg);
+  padding: 0.5rem;
   z-index: 1000;
 }
 
-/* En-tête et navigation */
+/* HEADER */
 header {
   display: flex;
   align-items: center;
@@ -80,6 +77,7 @@ header {
   font-weight: 700;
 }
 
+/* NAV */
 .nav-links {
   list-style: none;
   display: flex;
@@ -92,77 +90,58 @@ header {
 }
 
 .nav-links a {
-  display: block;
   padding: 0.5rem;
   font-weight: 600;
-  color: var(--bg);
   border-radius: 4px;
 }
 
-.nav-links a:hover, .nav-links a:focus {
-  background-color: rgba(255, 255, 255, 0.2);
+.nav-links a:hover,
+.nav-links a:focus {
+  background-color: rgba(255,255,255,0.2);
 }
 
 .nav-links a[aria-current="page"] {
   text-decoration: underline;
 }
 
-/* Interrupteur de thème (curseur) */
+/* THEME SWITCH */
 .theme-switch {
-  position: relative;
   display: inline-flex;
   align-items: center;
-  margin-left: 1rem;
 }
 
 .theme-switch input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
+  display: none;
 }
 
-.theme-switch .slider {
+.slider {
   width: 40px;
   height: 20px;
-  background-color: var(--bg);
+  background: var(--bg);
   border-radius: 20px;
-  transition: background-color 0.3s ease;
-  cursor: pointer;
   position: relative;
+  cursor: pointer;
 }
 
-.theme-switch .slider::before {
+.slider::before {
   content: "";
   position: absolute;
   width: 16px;
   height: 16px;
-  left: 2px;
   top: 2px;
-  background-color: var(--header-bg);
+  left: 2px;
+  background: var(--header-bg);
   border-radius: 50%;
-  transition: transform 0.3s ease;
+  transition: 0.3s;
 }
 
-.theme-switch input:checked + .slider {
-  background-color: var(--primary);
-}
-
-.theme-switch input:checked + .slider::before {
+input:checked + .slider::before {
   transform: translateX(20px);
 }
 
-/* Section héro */
+/* HERO */
 .hero {
   position: relative;
-  text-align: center;
-  overflow: hidden;
-}
-
-.hero-img {
-  width: 100%;
-  height: auto;
-  display: block;
 }
 
 .hero-text {
@@ -170,316 +149,135 @@ header {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: var(--bg);
-  background-color: rgba(0, 0, 0, 0.4);
+  background: rgba(0,0,0,0.4);
+  color: white;
   padding: 2rem;
   border-radius: 8px;
-  backdrop-filter: blur(2px);
-  max-width: 90%;
 }
 
-.hero-text h1 {
-  margin: 0 0 0.5rem;
-  font-size: 2rem;
-}
-
-.hero-text p {
-  margin: 0 0 1rem;
-  font-size: 1.2rem;
-}
-
+/* BUTTON */
 .btn {
-  display: inline-block;
-  background-color: var(--secondary);
-  color: var(--bg);
+  background: var(--secondary);
+  color: white;
   padding: 0.6rem 1.4rem;
   border-radius: 4px;
   font-weight: 600;
-  text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  cursor: pointer;
+  transition: 0.3s;
 }
 
-.btn:hover, .btn:focus {
-  background-color: var(--primary);
-  color: var(--bg);
+.btn:hover {
+  background: var(--primary);
 }
 
-/* Sections génériques */
+/* SECTIONS */
 section {
   padding: 2rem 1rem;
   max-width: 1100px;
-  margin: 0 auto;
+  margin: auto;
 }
 
-.intro p {
-  font-size: 1.1rem;
-}
-
-/* Grille de fonctionnalités */
-.features .feature-grid {
+/* FEATURES */
+.feature-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
-  margin-top: 1rem;
 }
 
 .feature-item {
-  background-color: var(--card-bg);
+  background: var(--card-bg);
   padding: 1.5rem;
   border-radius: 8px;
   flex: 1 1 250px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  transition: transform 0.2s ease;
+  transition: 0.2s;
 }
 
 .feature-item:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px);
 }
 
-.feature-item h3 {
-  margin-top: 0;
-}
-
-/* Produits */
-.product-header {
-  text-align: center;
-}
-
-.filter-controls {
-  margin-top: 1rem;
-}
-
-.filter-btn {
-  background-color: var(--header-bg);
-  color: var(--bg);
-  border: none;
-  padding: 0.5rem 1rem;
-  margin: 0 0.25rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-}
-
-.filter-btn:hover, .filter-btn:focus {
-  background-color: var(--primary);
-}
-
-.filter-btn.active {
-  background-color: var(--primary);
-}
-
+/* PRODUITS */
 .product-grid {
   display: grid;
   gap: 1.5rem;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  padding: 2rem 0;
 }
 
 .product-card {
-  background-color: var(--card-bg);
-  border-radius: 8px;
+  background: var(--card-bg);
   padding: 1rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
   text-align: center;
-  transition: transform 0.2s ease;
+  transition: 0.2s;
 }
 
 .product-card:hover {
-  transform: translateY(-4px);
-}
-
-.product-card img {
-  width: 100%;
-  height: auto;
-  border-radius: 4px;
-  margin-bottom: 0.5rem;
-}
-
-.product-card h3 {
-  margin: 0.5rem 0;
-  font-size: 1.1rem;
+  transform: translateY(-5px) scale(1.02);
 }
 
 .price {
-  font-weight: 700;
   color: var(--primary);
-  margin: 0.2rem 0;
+  font-weight: bold;
 }
 
 .original-price {
   text-decoration: line-through;
-  font-weight: 400;
-  color: var(--text);
   font-size: 0.9rem;
-  margin-left: 0.3rem;
 }
 
-/* À propos */
-.about-section h1, .about-section h2 {
-  margin-top: 0;
-}
-
-.values-list {
-  list-style: none;
-  padding-left: 0;
-}
-
-.values-list li {
-  margin-bottom: 1rem;
-  background-color: var(--card-bg);
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-}
-
-/* Contact */
-.contact-section address {
-  font-style: normal;
-  margin: 1rem 0;
-  line-height: 1.5;
-}
-
-.contact-form {
-  margin-top: 1rem;
-}
-
-.contact-form .form-group {
-  margin-bottom: 1rem;
-}
-
-.contact-form label {
-  display: block;
-  margin-bottom: 0.3rem;
-  font-weight: 600;
-}
-
+/* CONTACT */
 .contact-form input,
 .contact-form textarea {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font: inherit;
-  background-color: var(--card-bg);
-  color: var(--text);
-  transition: border-color 0.2s ease;
 }
 
-.contact-form input:focus,
-.contact-form textarea:focus {
-  outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 2px rgba(92, 184, 92, 0.3);
-}
-
-/* Bouton d’envoi dans le formulaire de contact */
-.contact-form button.btn {
-  margin-top: 0.5rem;
-}
-
-/* Pied de page */
+/* FOOTER */
 footer {
   text-align: center;
   padding: 1rem;
-  background-color: var(--header-bg);
+  background: var(--header-bg);
   color: var(--bg);
-  font-size: 0.9rem;
 }
 
-/* Adaptations pour petits écrans */
-@media (max-width: 600px) {
-  .hero-text h1 {
-    font-size: 1.5rem;
-  }
-  .hero-text p {
-    font-size: 1rem;
-  }
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-  .nav-links {
-    flex-wrap: wrap;
-    margin-top: 0.5rem;
-  }
-  .nav-links li {
-    margin-left: 0;
-    margin-right: 1rem;
-    margin-bottom: 0.5rem;
-  }
-  .feature-item {
-    flex: 1 1 100%;
-  }
-}
-
-/* --- Ajout minimal : menu burger mobile (uniquement) + animation --- */
-
-/* burger bouton caché par défaut (desktop) */
+/* BURGER */
 .burger {
   display: none;
-  background: none;
-  border: none;
-  color: var(--bg);
-  font-size: 1.8rem;
-  cursor: pointer;
-  line-height: 1;
 }
 
-/* On utilisera un mécanisme "max-height" pour l'animation sur mobile */
-@media screen and (max-width: 768px) {
+/* MOBILE */
+@media (max-width: 768px) {
+
   .burger {
-    display: block !important; /* affiché uniquement sur mobile */
+    display: block;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: white;
   }
 
-  header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  /* Préparer nav pour l'animation : max-height + overflow hidden */
   .nav-links {
-    display: flex; /* garder flex pour conserver ton style (mais colonne sur mobile) */
     flex-direction: column;
     width: 100%;
-    background-color: var(--header-bg);
-    margin-top: 0.5rem;
-    padding: 0;
-    overflow: hidden;
     max-height: 0;
-    transition: max-height 280ms ease;
+    overflow: hidden;
+    transition: 0.3s;
   }
 
-  /* Quand ouvert */
   .nav-links.show {
-    max-height: 400px; /* suffisamment grand pour contenir les liens */
+    max-height: 400px;
   }
 
   .nav-links li {
     margin: 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    width: 100%;
-  }
-
-  .nav-links a {
-    padding: 1rem;
-    text-align: center;
-    display: block;
-  }
-
-  .theme-switch {
-    margin-top: 0.5rem;
   }
 }
 
-/* Forcer sur desktop : nav visible, burger caché (sécurité si d'autres règles existent) */
-@media screen and (min-width: 769px) {
-  .nav-links {
-    display: flex !important;
-    max-height: none !important;
-  }
-  .burger {
-    display: none !important;
-  }
+/* UTILS */
+.hidden {
+  display: none;
+}
+
+.no-results {
+  text-align: center;
+  font-weight: bold;
 }

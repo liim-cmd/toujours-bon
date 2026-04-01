@@ -1,74 +1,49 @@
 /*
- * Script principal du site Zéro Gaspi Market
- * Gère la sélection du thème (clair/sombre) et le filtrage des produits,
- * ainsi que le menu burger sur mobile.
+ * Script principal du site ToujoursBon
+ * Gestion du thème, filtres produits, menu burger, formulaire et carte
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // Gestion du mode sombre / clair en utilisant localStorage
+
+  // =========================
+  // 🌙 THEME (clair / sombre)
+  // =========================
   const themeToggle = document.getElementById('theme-toggle');
   const savedTheme = localStorage.getItem('theme');
-  // Appliquer le thème enregistré si disponible
+
   if (savedTheme) {
     document.documentElement.setAttribute('data-theme', savedTheme);
-    if (themeToggle && savedTheme === 'dark') {
-      themeToggle.checked = true;
-    }
+    if (themeToggle) themeToggle.checked = (savedTheme === 'dark');
   } else {
-    // Utiliser la préférence système si aucun thème n’est enregistré
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    document.documentElement.setAttribute('data-theme', prefersDark ? 'dark' : 'light');
-    if (themeToggle) {
-      themeToggle.checked = prefersDark;
-    }
+    const defaultTheme = prefersDark ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', defaultTheme);
+    if (themeToggle) themeToggle.checked = prefersDark;
   }
 
   if (themeToggle) {
-    themeToggle.addEventListener('change', function () {
-      const newTheme = this.checked ? 'dark' : 'light';
+    themeToggle.addEventListener('change', () => {
+      const newTheme = themeToggle.checked ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', newTheme);
       localStorage.setItem('theme', newTheme);
     });
   }
 
-  // Filtrage des produits sur la page Produits
-  const filterButtons = document.querySelectorAll('.filter-btn');
-  const productCards = document.querySelectorAll('.product-card');
-  if (filterButtons && productCards) {
-    filterButtons.forEach(btn => {
-      btn.addEventListener('click', () => {
-        const filter = btn.dataset.filter;
-        // Mettre à jour l’état actif des boutons
-        filterButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        // Afficher ou masquer les cartes selon la catégorie
-        productCards.forEach(card => {
-          const category = card.dataset.category;
-          if (filter === 'all' || category === filter) {
-            card.style.display = '';
-          } else {
-            card.style.display = 'none';
-          }
-        });
-      });
-    });
-  }
-
-  // --- Menu burger (mobile uniquement) ---
+  // =========================
+  // 🍔 MENU BURGER
+  // =========================
   const burger = document.querySelector('.burger');
   const navLinks = document.querySelector('.nav-links');
 
   if (burger && navLinks) {
     burger.addEventListener('click', () => {
-      // n'agir que si écran mobile
       if (window.innerWidth <= 768) {
-        const expanded = burger.getAttribute('aria-expanded') === 'true' || false;
+        const expanded = burger.getAttribute('aria-expanded') === 'true';
         burger.setAttribute('aria-expanded', (!expanded).toString());
         navLinks.classList.toggle('show');
       }
     });
 
-    // Ferme le menu si on clique sur un lien (utile sur mobile)
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         if (window.innerWidth <= 768) {
@@ -78,7 +53,6 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Ferme le menu si on repasse en version PC
     window.addEventListener('resize', () => {
       if (window.innerWidth > 768) {
         navLinks.classList.remove('show');
@@ -86,4 +60,83 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // =========================
+  // 🛒 FILTRE PRODUITS
+  // =========================
+  const filterButtons = document.querySelectorAll('.filter-btn');
+  const productCards = document.querySelectorAll('.product-card');
+
+  if (filterButtons.length > 0 && productCards.length > 0) {
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const filter = btn.dataset.filter;
+
+        // état actif + accessibilité
+        filterButtons.forEach(b => {
+          b.classList.remove('active');
+          b.setAttribute('aria-pressed', 'false');
+        });
+
+        btn.classList.add('active');
+        btn.setAttribute('aria-pressed', 'true');
+
+        let visibleCount = 0;
+
+        productCards.forEach(card => {
+          const category = card.dataset.category;
+
+          if (filter === 'all' || category === filter) {
+            card.classList.remove('hidden');
+            visibleCount++;
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+
+        // 👉 BONUS : message si aucun produit
+        const noResult = document.querySelector('.no-results');
+        if (noResult) {
+          noResult.hidden = visibleCount !== 0;
+        }
+      });
+    });
+  }
+
+  // =========================
+  // 📩 FORMULAIRE CONTACT
+  // =========================
+  const form = document.querySelector('.contact-form');
+
+  if (form) {
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      alert("Merci pour votre message ! Nous vous répondrons rapidement.");
+
+      form.reset();
+    });
+  }
+
+  // =========================
+  // 🗺️ CARTE (Leaflet sécurisé)
+  // =========================
+  const mapContainer = document.getElementById('map');
+
+  if (mapContainer && typeof L !== "undefined") {
+    const latitude = 49.4431;
+    const longitude = 1.0883;
+
+    const map = L.map('map').setView([latitude, longitude], 16);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    L.marker([latitude, longitude]).addTo(map)
+      .bindPopup('<b>ToujoursBon</b><br>Rouen')
+      .openPopup();
+  }
+
 });
