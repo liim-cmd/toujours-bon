@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Indicateurs – ToujoursBon</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+  <style>
+    /* Connexion */
+    .login-container {
+      max-width: 420px;
+      margin: 5rem auto;
+      background: var(--card-bg);
+      padding: 1.8rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .login-container h1 { text-align:center; margin-bottom:1rem; }
+    .login-container input {
+      width:100%; padding:.6rem; margin-bottom:.8rem; border:1px solid #ccc; border-radius:6px;
+    }
+    .login-container button {
+      width:100%; padding:.7rem; border-radius:6px; border:none;
+      background:var(--primary); color:var(--bg); font-weight:600;
+    }
+    .error { color:#c0392b; text-align:center; margin-top:.5rem; }
+
+    /* Dashboard global */
+    #dashboard-root {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 1rem;
+    }
+
+    .dashboard {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--header-bg);
+      color: var(--bg);
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .dashboard-header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+
+    .logout-btn,
+    .pdf-btn {
+      background-color: var(--secondary);
+      color: var(--bg);
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      margin-left: 0.5rem;
+    }
+
+    .logout-btn:hover,
+    .pdf-btn:hover {
+      background-color: var(--primary);
+    }
+
+    /* Boîtes d’indicateurs */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: 1.2rem;
+      text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .stat-card h2 {
+      margin: 0;
+      font-size: 1.6rem;
+      color: var(--primary);
+    }
+
+    .stat-card p {
+      margin: 0.4rem 0 0;
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    /* Graphiques */
+    .charts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .chart-box {
+      background: var(--card-bg);
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .chart-box h2 {
+      font-size: 1rem;
+      margin-bottom: 0.8rem;
+      color: var(--text);
+    }
+
+    canvas {
+      width: 100% !important;
+      height: 220px !important;
+    }
+
+    @media (max-width: 600px) {
+      .dashboard-header {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo">ToujoursBon</div>
+    <button class="burger" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="nav-links">☰</button>
+    <nav>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="produits.html">Produits</a></li>
+        <li><a href="a-propos.html">À propos</a></li>
+        <li><a href="contact.html">Contact</a></li>
+        <li><a href="indicateurs.html" aria-current="page">Indicateurs</a></li>
+      </ul>
+    </nav>
+    <label class="theme-switch" for="theme-toggle">
+      <input type="checkbox" id="theme-toggle">
+      <span class="slider"></span>
+    </label>
+  </header>
+
+  <!-- Connexion -->
+  <div class="login-container" id="login-container">
+    <h1>Connexion</h1>
+    <input type="text" id="username" placeholder="Identifiant" />
+    <input type="password" id="password" placeholder="Mot de passe" />
+    <button id="login-btn">Se connecter</button>
+    <div class="error" id="error-msg"></div>
+  </div>
+
+  <!-- Dashboard généré dynamiquement -->
+  <div id="dashboard-root" aria-hidden="true"></div>
+
+  <footer>
+    <p>&copy; 2025 ToujoursBon – Rouen Rive Droite. Tous droits réservés.</p>
+  </footer>
+
+  <script src="script.js"></script>
+  <script>
+  (function(){
+    const USERNAME = "jury";
+    const PASSWORD_HASH = "03ac674216f3e15c761ee1a5e255f067953623c8b388b4459e13f978d7c846f4"; // SHA-256("1234")
+
+    const STATS = [
+      { label: 'Panier moyen', value: '14,30 €' },
+      { label: 'Ventes mensuelles', value: '1 250' },
+      { label: 'Clients réguliers', value: '460' },
+      { label: 'Produits sauvés', value: '8 200' },
+      { label: 'Comptes fidélité', value: '980' },
+      { label: 'Abonnements actifs', value: '120' },
+      { label: 'Taux de renouvellement', value: '87 %' },
+      { label: 'Satisfaction client', value: '4,7 / 5' },
+      { label: 'CO₂ évité / mois', value: '2,4 t' },
+      { label: 'Produits locaux', value: '68 %' }
+    ];
+
+    async function sha256hex(str) {
+      const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(str));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    const loginBtn = document.getElementById("login-btn");
+    const errorMsg = document.getElementById("error-msg");
+    const loginContainer = document.getElementById("login-container");
+    const dashboardRoot = document.getElementById("dashboard-root");
+
+    if (sessionStorage.getItem("connecte") === "true") showDashboard();
+
+    loginBtn.addEventListener("click", async () => {
+      const user = document.getElementById("username").value.trim();
+      const pass = document.getElementById("password").value.trim();
+      if (!user || !pass) return (errorMsg.textContent = "Veuillez remplir tous les champs.");
+      if (user !== USERNAME) return (errorMsg.textContent = "Identifiant incorrect.");
+
+      const hash = await sha256hex(pass);
+      if (hash === PASSWORD_HASH) {
+        sessionStorage.setItem("connecte", "true");
+        showDashboard();
+      } else {
+        errorMsg.textContent = "Mot de passe incorrect.";
+      }
+    });
+
+    function showDashboard() {
+      loginContainer.style.display = "none";
+      dashboardRoot.innerHTML = `
+        <div class="dashboard">
+          <div class="dashboard-header">
+            <h1>Tableau de bord – Rouen Rive Droite</h1>
+            <div>
+              <button class="pdf-btn" id="pdf-btn">📄 Exporter en PDF</button>
+              <button class="logout-btn" id="logout-btn">Se déconnecter</button>
+            </div>
+          </div>
+          <div id="dashboard-content">
+            <div class="stats-grid">${STATS.map(s => `
+              <div class="stat-card">
+                <h2>${s.value}</h2>
+                <p>${s.label}</p>
+              </div>`).join('')}
+            </div>
+            <div class="charts">
+              <div class="chart-box"><h2>📈 Suivi des ventes mensuelles</h2><canvas id="chartVentes"></canvas></div>
+              <div class="chart-box"><h2>🥦 Répartition des ventes</h2><canvas id="chartCategories"></canvas></div>
+              <div class="chart-box"><h2>👥 Abonnements mensuels</h2><canvas id="chartAbonnements"></canvas></div>
+              <div class="chart-box"><h2>⭐ Fidélité & Satisfaction</h2><canvas id="chartFidelite"></canvas></div>
+            </div>
+          </div>
+        </div>`;
+      initCharts();
+
+      document.getElementById("logout-btn").addEventListener("click", () => {
+        sessionStorage.removeItem("connecte");
+        location.reload();
+      });
+
+      document.getElementById("pdf-btn").addEventListener("click", async () => {
+        const canvas = await html2canvas(document.getElementById("dashboard-content"), { scale: 2 });
+        const imgData = canvas.toDataURL("image/png");
+        const { jsPDF } = window.jspdf;
+        const pdf = new jsPDF("p", "mm", "a4");
+        const width = pdf.internal.pageSize.getWidth();
+        const height = (canvas.height * width) / canvas.width;
+        pdf.addImage(imgData, "PNG", 0, 0, width, height);
+        pdf.save("tableau-de-bord-toujoursbon.pdf");
+      });
+    }
+
+    function initCharts() {
+      new Chart(document.getElementById("chartVentes"), {
+        type: "line",
+        data: {
+          labels: ["Mai", "Juin", "Juil.", "Août", "Sept.", "Oct."],
+          datasets: [{ data: [1020, 1150, 1190, 1280, 1350, 1250], borderColor: "#5cb85c", backgroundColor: "rgba(92,184,92,0.15)", fill: true, tension: 0 }]
+        },
+        options: { responsive: true, animation: false, plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById("chartCategories"), {
+        type: "doughnut",
+        data: { labels: ["Frais", "Secs", "Fruits & légumes"], datasets: [{ data: [40, 35, 25], backgroundColor: ["#4caf50", "#ffa64d", "#5cb85c"] }] },
+        options: { responsive: true, animation: false, plugins: { legend: { position: "bottom" } } }
+      });
+
+      new Chart(document.getElementById("chartAbonnements"), {
+        type: "bar",
+        data: { labels: ["Mai", "Juin", "Juil.", "Août", "Sept.", "Oct."], datasets: [{ data: [100, 105, 110, 115, 118, 120], backgroundColor: "#5cb85c" }] },
+        options: { responsive: true, animation: false, plugins: { legend: { display: false } } }
+      });
+
+      new Chart(document.getElementById("chartFidelite"), {
+        type: "bar",
+        data: { labels: ["Fidélité", "Satisfaction"], datasets: [{ data: [87, 94], backgroundColor: ["#4caf50", "#ffa64d"] }] },
+        options: { responsive: true, animation: false, scales: { y: { beginAtZero: true, max: 100 } }, plugins: { legend: { display: false } } }
+      });
+    }
+  })();
+  </script>
+</body>
+</html>
